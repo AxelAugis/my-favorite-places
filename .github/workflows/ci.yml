@@ -43,6 +43,10 @@ jobs:
         - name: Install dependencies
           working-directory: ./client
           run: yarn install
+
+        - name: Generate Kubb
+          working-directory: ./client
+          run: npx kubb generate
           
         - name: Build project
           working-directory: ./client
