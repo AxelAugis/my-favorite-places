@@ -1,0 +1,49 @@
+name: MFP Pipeline
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up Yarn
+          uses: actions/setup-node@v3
+          with:
+            node-version: '22.x'
+            cache: 'yarn'
+            cache-dependency-path: './server/yarn.lock'
+        
+        - name: Install dependencies
+          working-directory: ./server
+          run: yarn install
+          
+        - name: Run tests
+          working-directory: ./server
+          run: yarn test
+    
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up Yarn
+          uses: actions/setup-node@v3
+          with:
+            node-version: '22.x'
+            cache: 'yarn'
+            cache-dependency-path: './client/yarn.lock'
+        
+        - name: Install dependencies
+          working-directory: ./client
+          run: yarn install
+          
+        - name: Build project
+          working-directory: ./client
+          run: yarn build
