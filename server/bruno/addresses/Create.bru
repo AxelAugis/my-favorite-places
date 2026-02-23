@@ -1,0 +1,23 @@
+meta {
+  name: Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3001/api/addresses
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "searchWord": "Gare",
+    "name": "Gare Part-Dieu"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
