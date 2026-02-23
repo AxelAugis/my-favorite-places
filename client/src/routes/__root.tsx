@@ -15,6 +15,7 @@ import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
+import { getApiUsersMeQueryOptions } from '@/api'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -41,6 +42,19 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
+  loader: async ({ context }) => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    try {
+      await context.queryClient.ensureQueryData(
+        getApiUsersMeQueryOptions(),
+      )
+    } catch {
+      // Ignore 403: user not authenticated is a valid state for the app shell.
+    }
+  },
   shellComponent: RootDocument,
 })
 

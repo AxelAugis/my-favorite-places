@@ -485,6 +485,33 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Logout current user",
+        "description": "Clears the `token` httpOnly cookie. This endpoint is idempotent.",
+        "responses": {
+          "200": {
+            "description": "Logout successful (or no active session)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

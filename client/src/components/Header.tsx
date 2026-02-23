@@ -1,26 +1,68 @@
 import { Link } from '@tanstack/react-router'
 import AuthButton from './buttons/AuthButton'
-
+import {
+  getApiUsersMeQueryKey,
+  useDeleteApiUsersTokens,
+  useGetApiUsersMe,
+} from '@/api'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function Header() {
-
+  const queryClient = useQueryClient()
   const authLinks = [
-    { variant: "primary" as const, name: "Connexion", url: "/login" },
-    { variant: "outline" as const, name: "Inscription", url: "/signup" },
+    { variant: 'primary' as const, name: 'Connexion', url: '/login' },
+    { variant: 'outline' as const, name: 'Inscription', url: '/signup' },
   ]
+
+  const authQuery = useGetApiUsersMe({
+    query: {
+      enabled: typeof window !== 'undefined',
+    },
+  })
+  const isAuthLoading = typeof window !== 'undefined' && authQuery.isPending
+
+  const logoutMutation = useDeleteApiUsersTokens({
+    mutation: {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: getApiUsersMeQueryKey(),
+        })
+      },
+      onError: async (error) => {
+        console.error('Logout error:', error)
+      },
+    },
+  })
 
   return (
     <header className="w-full p-4 flex justify-between items-center bg-gray-800 text-white shadow-lg">
       <h1 className="ml-4 text-xl font-semibold">
-        <Link to="/">
-          MFP
-        </Link>
+        <Link to="/">MFP</Link>
       </h1>
-        <div className="flex items-center gap-x-6">
-          {authLinks.map((link) => (
-            <AuthButton key={link.name} variant={link.variant} url={link.url} />
-          ))}
+      {!isAuthLoading &&
+        !authQuery.isSuccess &&
+        typeof window !== 'undefined' && (
+          <div className="flex items-center gap-x-6">
+            {authLinks.map((link) => (
+              <AuthButton
+                key={link.name}
+                variant={link.variant}
+                url={link.url}
+              />
+            ))}
+          </div>
+        )}
+
+      {!isAuthLoading && authQuery.isSuccess && authQuery.data && (
+        <div className="flex items-center gap-x-4">
+          <button
+            onClick={async () => await logoutMutation.mutateAsync()}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-sm"
+          >
+            Déconnexion
+          </button>
         </div>
+      )}
     </header>
   )
 }

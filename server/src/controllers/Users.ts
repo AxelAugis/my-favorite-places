@@ -6,6 +6,18 @@ import { isAuthorized } from "../utils/isAuthorized";
 import { getUserFromRequest } from "../utils/getUserFromRequest";
 
 const tokenSecretKey = process.env.SESSION_SECRET || "superlongstring";
+const isProduction = process.env.NODE_ENV === "production";
+const cookieSameSite =
+  (process.env.COOKIE_SAME_SITE as "lax" | "strict" | "none" | undefined) ||
+  "lax";
+const cookieSecure =
+  process.env.COOKIE_SECURE === "true" || (isProduction && cookieSameSite === "none");
+const authCookieOptions = {
+  httpOnly: true,
+  sameSite: cookieSameSite,
+  secure: cookieSecure,
+  path: "/",
+} as const;
 
 const usersRouter = Router();
 
@@ -167,9 +179,7 @@ usersRouter.post("/tokens", async (req, res) => {
   try {
     if (await argon2.verify(user.hashedPassword, password)) {
       const token = jwt.sign({ userId: user.id }, tokenSecretKey);
-      res.cookie("token", token, {
-        httpOnly: true,
-      });
+      res.cookie("token", token, authCookieOptions);
       return res.json({ token: token });
     } else {
       return res.status(400).json({ message: `wrong credentials` });
@@ -177,6 +187,31 @@ usersRouter.post("/tokens", async (req, res) => {
   } catch (err) {
     return res.status(400).json({ message: `wrong credentials` });
   }
+});
+
+/**
+ * @openapi
+ * /api/users/tokens:
+ *   delete:
+ *     tags: [users]
+ *     summary: Logout current user
+ *     description: Clears the `token` httpOnly cookie. This endpoint is idempotent.
+ *     responses:
+ *       200:
+ *         description: Logout successful (or no active session)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - message
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
+usersRouter.delete("/tokens", (_req, res) => {
+  res.clearCookie("token", authCookieOptions);
+  return res.json({ message: "logged out" });
 });
 
 export default usersRouter;

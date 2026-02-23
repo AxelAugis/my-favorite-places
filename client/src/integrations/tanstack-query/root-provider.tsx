@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { axiosInstance } from '@kubb/plugin-client/clients/axios'
 
 let context:
   | {
@@ -12,7 +13,13 @@ export function getContext() {
     return context
   }
 
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 0,
+      },
+    },
+  })
 
   context = {
     queryClient,
@@ -20,6 +27,8 @@ export function getContext() {
 
   return context
 }
+
+axiosInstance.defaults.withCredentials = true
 
 export default function TanStackQueryProvider({
   children,

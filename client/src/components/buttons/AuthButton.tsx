@@ -16,6 +16,7 @@ export default function AuthButton({ variant, url }: Readonly<AuthButtonProps>) 
     return (
         <Link
             to={url}
+            preload={false}
             className={`px-4 py-1.5 rounded font-medium ${backgroundClass} transition-colors duration-200`}
         >
             {text}
