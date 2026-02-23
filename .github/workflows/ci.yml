@@ -28,6 +28,7 @@ jobs:
           run: yarn test
     
     build:
+        if: success()
         runs-on: ubuntu-latest
         steps:
         - name: Checkout code
