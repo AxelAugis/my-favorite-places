@@ -1,7 +1,7 @@
 import app from "./app";
 import datasource from "./datasource";
 
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+const port = process.env.PORT ? Number(process.env.PORT) : 3001;
 
 async function startApp() {
   console.log(`⏳ starting server`);
