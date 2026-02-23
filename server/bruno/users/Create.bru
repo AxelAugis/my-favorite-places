@@ -1,0 +1,23 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3001/api/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "velris@gmail.com",
+    "password": "test"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
