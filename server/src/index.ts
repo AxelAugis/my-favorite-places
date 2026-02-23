@@ -1,5 +1,6 @@
 import app from "./app";
 import datasource from "./datasource";
+import { writeOpenApiJsonFile } from "./swagger";
 
 const port = process.env.PORT ? Number(process.env.PORT) : 3001;
 
@@ -7,6 +8,9 @@ async function startApp() {
   console.log(`⏳ starting server`);
 
   try {
+    const openApiFilePath = await writeOpenApiJsonFile();
+    console.log(`📝 OpenAPI json generated at ${openApiFilePath}`);
+
     await datasource.initialize();
     console.log(`✅ connected to Sqlite db`);
 

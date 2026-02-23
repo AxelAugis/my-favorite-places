@@ -1,5 +1,6 @@
 import express from "express";
 import apiRouter from "./router";
+import { buildOpenApiDocument } from "./swagger";
 
 const app = express();
 
@@ -8,6 +9,10 @@ app.use(express.json());
 
 // use the router to answers request on /api
 app.use("/api", apiRouter);
+
+app.get("/openapi.json", (_, res) => {
+  res.json(buildOpenApiDocument());
+});
 
 // return HTTP 404 if the request has not been handled
 app.use((_, res) => {

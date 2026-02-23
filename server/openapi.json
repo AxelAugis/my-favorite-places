@@ -1,0 +1,265 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "My Favorite Places API",
+    "version": "1.0.0",
+    "description": "OpenAPI document generated from JSDoc annotations in Express controllers."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "users"
+    },
+    {
+      "name": "addresses"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/api/addresses": {
+      "post": {
+        "tags": [
+          "addresses"
+        ],
+        "summary": "Create an address for the authenticated user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "searchWord",
+                  "name"
+                ],
+                "properties": {
+                  "searchWord": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Address created"
+          },
+          "400": {
+            "description": "Missing required fields"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Search word not found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "addresses"
+        ],
+        "summary": "List authenticated user addresses",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Addresses list"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/addresses/searches": {
+      "post": {
+        "tags": [
+          "addresses"
+        ],
+        "summary": "Search addresses by radius around coordinates",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "radius",
+                  "from"
+                ],
+                "properties": {
+                  "radius": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "from": {
+                    "type": "object",
+                    "required": [
+                      "lat",
+                      "lng"
+                    ],
+                    "properties": {
+                      "lat": {
+                        "type": "number"
+                      },
+                      "lng": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Filtered addresses list"
+          },
+          "400": {
+            "description": "Invalid radius or coordinates"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a user account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created"
+          },
+          "400": {
+            "description": "Missing email or password"
+          },
+          "500": {
+            "description": "Unable to create user"
+          }
+        }
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get current authenticated user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current user"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/users/tokens": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create an authentication token",
+        "description": "Returns a JWT token and also sets the `token` httpOnly cookie.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token created"
+          },
+          "400": {
+            "description": "Wrong credentials or invalid body"
+          }
+        }
+      }
+    }
+  }
+}
