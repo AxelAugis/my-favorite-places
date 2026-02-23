@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --watch src --ignore openapi.json --ext ts src/index.ts",
-    "jest": "jest"
+    "test": "jest"
   },
   "dependencies": {
     "argon2": "^0.44.0",
