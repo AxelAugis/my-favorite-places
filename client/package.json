@@ -31,6 +31,13 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
+    "@kubb/agent": "^4.27.2",
+    "@kubb/cli": "^4.27.3",
+    "@kubb/core": "^4.27.3",
+    "@kubb/plugin-client": "^4.27.3",
+    "@kubb/plugin-oas": "^4.27.3",
+    "@kubb/plugin-react-query": "^4.27.3",
+    "@kubb/plugin-ts": "^4.27.3",
     "@tanstack/devtools-vite": "^0.3.11",
     "@tanstack/eslint-config": "^0.3.0",
     "@testing-library/dom": "^10.4.0",

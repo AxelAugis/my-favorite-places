@@ -7,6 +7,26 @@ import { getDistance } from "../utils/getDistance";
 
 const addressesRouter = Router();
 
+type AddressDto = {
+  id: number;
+  name: string;
+  description: string | null;
+  lng: number;
+  lat: number;
+  createdAt: string;
+};
+
+function serializeAddress(address: Address): AddressDto {
+  return {
+    id: address.id,
+    name: address.name,
+    description: address.description ?? null,
+    lng: address.lng,
+    lat: address.lat,
+    createdAt: address.createdAt.toISOString(),
+  };
+}
+
 /**
  * @openapi
  * /api/addresses:
@@ -34,12 +54,28 @@ const addressesRouter = Router();
  *     responses:
  *       200:
  *         description: Address created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AddressResponse'
  *       400:
  *         description: Missing required fields
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       403:
  *         description: Access denied
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       404:
  *         description: Search word not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 addressesRouter.post("/", isAuthorized, async (req, res) => {
   const searchWord = req.body.searchWord;
@@ -56,13 +92,16 @@ addressesRouter.post("/", isAuthorized, async (req, res) => {
 
   if (coordinates) {
     const user = await getUserFromRequest(req);
+    if (!user) {
+      return res.status(403).json({ message: `access denied` });
+    }
     const address = new Address();
     address.name = name;
     address.description = description;
     Object.assign(address, coordinates);
     address.user = user;
     await address.save();
-    return res.json({ item: address });
+    return res.json({ item: serializeAddress(address) });
   } else {
     return res.status(404).json({ message: `search word not found` });
   }
@@ -79,13 +118,24 @@ addressesRouter.post("/", isAuthorized, async (req, res) => {
  *     responses:
  *       200:
  *         description: Addresses list
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AddressesResponse'
  *       403:
  *         description: Access denied
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 addressesRouter.get("/", isAuthorized, async (req, res) => {
   const user = await getUserFromRequest(req);
+  if (!user) {
+    return res.status(403).json({ message: `access denied` });
+  }
   const addresses = await Address.findBy({ user: { id: user.id } });
-  return res.json({ items: addresses });
+  return res.json({ items: addresses.map(serializeAddress) });
 });
 
 /**
@@ -122,10 +172,22 @@ addressesRouter.get("/", isAuthorized, async (req, res) => {
  *     responses:
  *       200:
  *         description: Filtered addresses list
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AddressesResponse'
  *       400:
  *         description: Invalid radius or coordinates
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       403:
  *         description: Access denied
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 addressesRouter.post("/searches", isAuthorized, async (req, res) => {
   const radius = req.body.radius;
@@ -151,8 +213,11 @@ addressesRouter.post("/searches", isAuthorized, async (req, res) => {
   }
 
   const user = await getUserFromRequest(req);
+  if (!user) {
+    return res.status(403).json({ message: `access denied` });
+  }
   const addresses = await Address.findBy({ user: { id: user.id } });
-  const closeAddresses = [];
+  const closeAddresses: Address[] = [];
 
   for (const address of addresses) {
     if (getDistance(address, from) <= radius) {
@@ -160,7 +225,7 @@ addressesRouter.post("/searches", isAuthorized, async (req, res) => {
     }
   }
 
-  return res.json({ items: closeAddresses });
+  return res.json({ items: closeAddresses.map(serializeAddress) });
 });
 
 export default addressesRouter;

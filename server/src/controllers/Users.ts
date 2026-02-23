@@ -9,6 +9,20 @@ const tokenSecretKey = process.env.SESSION_SECRET || "superlongstring";
 
 const usersRouter = Router();
 
+type UserDto = {
+  id: number;
+  email: string;
+  createdAt: string;
+};
+
+function serializeUser(user: User): UserDto {
+  return {
+    id: user.id,
+    email: user.email,
+    createdAt: user.createdAt.toISOString(),
+  };
+}
+
 /**
  * @openapi
  * /api/users:
@@ -33,10 +47,22 @@ const usersRouter = Router();
  *     responses:
  *       200:
  *         description: User created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserResponse'
  *       400:
  *         description: Missing email or password
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       500:
  *         description: Unable to create user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 usersRouter.post("/", async (req, res) => {
   const email = req.body.email;
@@ -51,7 +77,7 @@ usersRouter.post("/", async (req, res) => {
     user.email = email;
     user.hashedPassword = await argon2.hash(password);
     await user.save();
-    return res.json({ item: user });
+    return res.json({ item: serializeUser(user) });
   } catch (e) {
     console.error(`🆘 got error: ${JSON.stringify(e)}`, e);
     return res.status(500).json({ message: `unable to create user` });
@@ -69,12 +95,23 @@ usersRouter.post("/", async (req, res) => {
  *     responses:
  *       200:
  *         description: Current user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserResponse'
  *       403:
  *         description: Access denied
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 usersRouter.get("/me", isAuthorized, async (req, res) => {
   const user = await getUserFromRequest(req);
-  return res.json({ item: user });
+  if (!user) {
+    return res.status(403).json({ message: `access denied` });
+  }
+  return res.json({ item: serializeUser(user) });
 });
 
 /**
@@ -102,8 +139,16 @@ usersRouter.get("/me", isAuthorized, async (req, res) => {
  *     responses:
  *       200:
  *         description: Token created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TokenResponse'
  *       400:
  *         description: Wrong credentials or invalid body
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 usersRouter.post("/tokens", async (req, res) => {
   const email = req.body.email;

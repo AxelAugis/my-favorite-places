@@ -21,6 +21,99 @@ const swaggerOptions = {
           bearerFormat: "JWT",
         },
       },
+      schemas: {
+        ErrorResponse: {
+          type: "object",
+          required: ["message"],
+          properties: {
+            message: {
+              type: "string",
+            },
+          },
+        },
+        User: {
+          type: "object",
+          required: ["id", "email", "createdAt"],
+          properties: {
+            id: {
+              type: "number",
+            },
+            email: {
+              type: "string",
+              format: "email",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+        UserResponse: {
+          type: "object",
+          required: ["item"],
+          properties: {
+            item: {
+              $ref: "#/components/schemas/User",
+            },
+          },
+        },
+        TokenResponse: {
+          type: "object",
+          required: ["token"],
+          properties: {
+            token: {
+              type: "string",
+            },
+          },
+        },
+        Address: {
+          type: "object",
+          required: ["id", "name", "description", "lng", "lat", "createdAt"],
+          properties: {
+            id: {
+              type: "number",
+            },
+            name: {
+              type: "string",
+            },
+            description: {
+              type: "string",
+              nullable: true,
+            },
+            lng: {
+              type: "number",
+            },
+            lat: {
+              type: "number",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+        AddressResponse: {
+          type: "object",
+          required: ["item"],
+          properties: {
+            item: {
+              $ref: "#/components/schemas/Address",
+            },
+          },
+        },
+        AddressesResponse: {
+          type: "object",
+          required: ["items"],
+          properties: {
+            items: {
+              type: "array",
+              items: {
+                $ref: "#/components/schemas/Address",
+              },
+            },
+          },
+        },
+      },
     },
   },
   apis: [
