@@ -38,12 +38,12 @@ jobs:
           with:
             node-version: '22.x'
             cache: 'yarn'
-            cache-dependency-path: './server/yarn.lock'
+            cache-dependency-path: './client/yarn.lock'
         
         - name: Install dependencies
-          working-directory: ./server
+          working-directory: ./client
           run: yarn install
           
         - name: Build project
-          working-directory: ./server
+          working-directory: ./client
           run: yarn build
