@@ -1,15 +1,15 @@
 import { Link } from "@tanstack/react-router";
 
-interface AuthButtonProps {
+interface AuthLinkProps {
     variant: "primary" | "outline";
     url: string;
 }
 
-export default function AuthButton({ variant, url }: Readonly<AuthButtonProps>) {
+export default function AuthLink({ variant, url }: Readonly<AuthLinkProps>) {
 
     const backgroundClass = variant === "primary" ? 
-    "bg-gray-600 text-gray-100 hover:bg-gray-700 border border-transparent" : 
-    "border border-gray-300 text-gray-100 hover:bg-gray-100 hover:text-gray-800";
+    "bg-cyan-500 hover:bg-cyan-600 text-gray-100 border border-transparent" : 
+    "border border-cyan-300 text-cyan-100 hover:bg-gray-200 hover:text-cyan-600 hover:border-transparent";
 
     const text = variant === "primary" ? "Connexion" : "Inscription";
 
@@ -18,6 +18,7 @@ export default function AuthButton({ variant, url }: Readonly<AuthButtonProps>) 
             to={url}
             preload={false}
             className={`px-4 py-1.5 rounded font-medium ${backgroundClass} transition-colors duration-200`}
+            data-testid={`auth-link-${variant}`}
         >
             {text}
         </Link>

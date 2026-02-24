@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
+  <rect width="240" height="240" rx="24" fill="#ffffff" />
+  <g transform="translate(40,20)">
+    <!-- marker -->
+    <path d="M80 0C111.39 0 136 24.61 136 56C136 97 80 160 80 160C80 160 24 97 24 56C24 24.61 48.61 0 80 0Z" fill="#0FA3A3"/>
+    <!-- inner heart -->
+    <path d="M80 44c-6.6-10-24-10-30 0-3.7 5.7-3 12 1 17 4 5 14 12 29 27 15-15 25-22 29-27 4-5 4.7-11.3 1-17-6-10-23.4-10-30 0z" transform="translate(-16,-8)" fill="#FF6B61"/>
+  </g>
+</svg>

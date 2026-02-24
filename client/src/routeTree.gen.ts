@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as authSignupRouteImport } from './routes/(auth)/signup'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as addressAddRouteImport } from './routes/(address)/add'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,15 +35,22 @@ const authLoginRoute = authLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const addressAddRoute = addressAddRouteImport.update({
+  id: '/(address)/add',
+  path: '/add',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/add': typeof addressAddRoute
   '/login': typeof authLoginRoute
   '/signup': typeof authSignupRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/add': typeof addressAddRoute
   '/login': typeof authLoginRoute
   '/signup': typeof authSignupRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
@@ -50,18 +58,20 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/(address)/add': typeof addressAddRoute
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/signup': typeof authSignupRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup' | '/demo/tanstack-query'
+  fullPaths: '/' | '/add' | '/login' | '/signup' | '/demo/tanstack-query'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/demo/tanstack-query'
+  to: '/' | '/add' | '/login' | '/signup' | '/demo/tanstack-query'
   id:
     | '__root__'
     | '/'
+    | '/(address)/add'
     | '/(auth)/login'
     | '/(auth)/signup'
     | '/demo/tanstack-query'
@@ -69,6 +79,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  addressAddRoute: typeof addressAddRoute
   authLoginRoute: typeof authLoginRoute
   authSignupRoute: typeof authSignupRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
@@ -104,11 +115,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(address)/add': {
+      id: '/(address)/add'
+      path: '/add'
+      fullPath: '/add'
+      preLoaderRoute: typeof addressAddRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  addressAddRoute: addressAddRoute,
   authLoginRoute: authLoginRoute,
   authSignupRoute: authSignupRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,

@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import AuthButton from './buttons/AuthButton'
+import AuthLink from './AuthLink'
 import {
   getApiUsersMeQueryKey,
   useDeleteApiUsersTokens,
@@ -35,16 +35,16 @@ export default function Header() {
   })
 
   return (
-    <header className="w-full p-4 flex justify-between items-center bg-gray-800 text-white shadow-lg">
+    <header className="w-full p-4 flex justify-between items-center bg-slate-900 text-white shadow-lg border-b border-white/10">
       <h1 className="ml-4 text-xl font-semibold">
         <Link to="/">MFP</Link>
       </h1>
       {!isAuthLoading &&
         !authQuery.isSuccess &&
-        typeof window !== 'undefined' && (
+        globalThis.window !== undefined && (
           <div className="flex items-center gap-x-6">
             {authLinks.map((link) => (
-              <AuthButton
+              <AuthLink
                 key={link.name}
                 variant={link.variant}
                 url={link.url}
@@ -56,8 +56,9 @@ export default function Header() {
       {!isAuthLoading && authQuery.isSuccess && authQuery.data && (
         <div className="flex items-center gap-x-4">
           <button
+            data-testid="logout-btn"
             onClick={async () => await logoutMutation.mutateAsync()}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-sm"
+            className="px-4 py-2 bg-transparent hover:bg-red-700 rounded text-sm transition-colors"
           >
             Déconnexion
           </button>

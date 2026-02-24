@@ -80,6 +80,7 @@ function LoginPage() {
           )}
 
           <Input
+            dataTestId='input-email'
             label="Email"
             id="email"
             value={email}
@@ -88,6 +89,7 @@ function LoginPage() {
           />
 
           <InputPassword
+            dataTestId='input-password'
             label="Mot de passe"
             id="password"
             value={password}
@@ -98,7 +100,8 @@ function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+            data-testid="login-button"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform  focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800"
           >
             Se connecter
           </button>

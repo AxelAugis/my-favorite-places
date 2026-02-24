@@ -88,6 +88,7 @@ function SignupPage() {
             </div>
           )}
           <Input
+            dataTestId='input-email'
             label="Email"
             id="email"
             value={email}
@@ -96,6 +97,7 @@ function SignupPage() {
             error={error && (error.includes('email') ? error : '')}
           />
           <InputPassword
+            dataTestId='input-password'
             label="Mot de passe"
             id="password"
             value={password}
@@ -105,6 +107,7 @@ function SignupPage() {
             minLength={8}
           />
           <InputPassword
+            dataTestId='input-confirm-password'
             label="Confirmer le mot de passe"
             id="confirmPassword"
             value={confirmPassword}
@@ -114,8 +117,9 @@ function SignupPage() {
             minLength={8}
           />
           <button
+            data-testid='submit-btn'
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform  focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800"
           >
             S'inscrire
           </button>

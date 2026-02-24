@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 
 interface InputPasswordProps {
+  dataTestId: string
   label: string
   id: string
   value: string
@@ -11,7 +12,7 @@ interface InputPasswordProps {
   minLength: number
 }
 
-export default function InputPassword({ label, id, error, value, onChange, placeholder, minLength }: InputPasswordProps) {
+export default function InputPassword({ dataTestId, label, id, error, value, onChange, placeholder, minLength }: InputPasswordProps) {
   const [showPassword, setShowPassword] = useState(false)
 
   const togglePasswordVisibility = () => {
@@ -28,6 +29,7 @@ export default function InputPassword({ label, id, error, value, onChange, place
       </label>
       <div className="relative">
         <input
+          data-testid={dataTestId}
           id={id}
           type={showPassword ? 'text' : 'password'}
           className="w-full px-4 py-2 pr-12 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"

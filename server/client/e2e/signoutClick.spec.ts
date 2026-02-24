@@ -11,7 +11,6 @@ test('signout click', async ({ page }) => {
         });
     });
 
-    // On intercepte la déconnexion
     await page.route('**/api/users/tokens', async (route) => {
         if (route.request().method() === 'DELETE') {
             await route.fulfill({ status: 204 });
