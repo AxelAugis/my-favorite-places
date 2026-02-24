@@ -53,8 +53,6 @@ describe("App - Users", () => {
             password: passwordToCreate,
         });
 
-        console.log(emailToCreate, passwordToCreate, response.body);
-
         expect(response.status).toBe(200);
 
         expect(response.body).toEqual({
