@@ -1,0 +1,20 @@
+meta {
+  name: Logout
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:3001/api/users/tokens
+  body: none
+  auth: inherit
+}
+
+script:post-response {
+  bru.setVar("token", "")
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
