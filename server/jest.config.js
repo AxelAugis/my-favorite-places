@@ -8,6 +8,9 @@ module.exports = {
     transform: {
         "^.+\\.[tj]sx?$": ["ts-jest", {tsconfig: {allowJs: true}}],
     },
+    testPathIgnorePatterns: [
+        "<rootDir>/client/e2e/",
+    ],
     transformIgnorePatterns: [
         "/node_modules/(?!(?:@faker-js/faker)/)",
     ]
