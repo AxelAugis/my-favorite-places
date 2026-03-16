@@ -80,3 +80,37 @@ describe("App - Users", () => {
         });
     });
 });
+
+describe("Reproduce users with same email error", () => {
+    beforeAll(async () => {
+        if (!datasource.isInitialized) {
+            await datasource.initialize();
+        }
+    });
+
+    afterAll(async () => {
+        if (datasource.isInitialized) {
+            await datasource.destroy();
+        }
+    });
+
+    it("should not be able to create two user accounts with the same email", async () => {
+        const email = faker.internet.email().toLowerCase();
+        const password1 = faker.internet.password({length: 16});
+        const password2 = faker.internet.password({length: 16});
+
+        const response1 = await request(app).post("/api/users").send({
+            email,
+            password: password1,
+        });
+
+        expect(response1.status).toBe(200);
+
+        const response2 = await request(app).post("/api/users").send({
+            email,
+            password: password2,
+        });
+
+        expect(response2.status).toBe(400);
+    });
+});
