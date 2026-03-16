@@ -2,6 +2,7 @@ import { Toolbar } from '@/components/Toolbar'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { type Address, useGetApiAddresses } from '@/api'
+import { AddressCard } from '@/components/card/AddressCard'
 
 export const Route = createFileRoute('/')({ component: App })
 
@@ -53,17 +54,17 @@ function App() {
       )
     }
 
+    const handleDelete = (id: number) => {
+      setAddresses((prev) => prev?.filter((a) => a.id !== id) ?? prev)
+      setDisplayedAddresses((prev) => prev?.filter((a) => a.id !== id) ?? prev)
+    }
+
     return displayedAddresses.map((address) => (
-      <div
+      <AddressCard
         key={address.id}
-        className={`w-full bg-slate-700/30 rounded-lg shadow-lg border border-slate-600/50 hover:border-cyan-500 p-4 flex flex-col gap-y-2 transition-colors`}
-      >
-        <h3 className={`font-poppins text-xl font-semibold`}>{address.name}</h3>
-        <p className={`text-sm text-slate-400`}>{address.description}</p>
-        <p className={`text-xs text-slate-500`}>
-          Lat: {address.lat}, Lng: {address.lng}
-        </p>
-      </div>
+        {...address}
+        onDeleted={handleDelete}
+      />
     ))
   }
 
