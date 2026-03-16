@@ -2,6 +2,7 @@ import { Router } from "express";
 import { User } from "../entities/User";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
+import { QueryFailedError } from "typeorm";
 import { isAuthorized } from "../utils/isAuthorized";
 import { getUserFromRequest } from "../utils/getUserFromRequest";
 
@@ -91,6 +92,12 @@ usersRouter.post("/", async (req, res) => {
     await user.save();
     return res.json({ item: serializeUser(user) });
   } catch (e) {
+    if (e instanceof QueryFailedError) {
+      const errorMessage = `${e.message}`.toLowerCase();
+      if (errorMessage.includes("unique") && errorMessage.includes("email")) {
+        return res.status(400).json({ message: `email already exists` });
+      }
+    }
     console.error(`🆘 got error: ${JSON.stringify(e)}`, e);
     return res.status(500).json({ message: `unable to create user` });
   }
