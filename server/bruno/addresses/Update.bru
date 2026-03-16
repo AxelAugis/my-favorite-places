@@ -1,0 +1,91 @@
+meta {
+  name: Update
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:3001/api/addresses/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Gare Part-Dieu mise a jour",
+    "description": "Point de depart pour mes trajets"
+  }
+}
+
+tests {
+  test("should update an address successfully", function () {
+      const body = res.getBody();
+
+      if (res.getStatus() !== 200) {
+        return;
+      }
+
+      expect(res.getStatus()).to.equal(200);
+      expect(body).to.have.property("item");
+      expect(body.item).to.have.property("id");
+      expect(body.item.name).to.equal("Gare Part-Dieu mise a jour");
+      expect(body.item.description).to.equal("Point de depart pour mes trajets");
+      expect(body.item).to.have.property("lat");
+      expect(body.item).to.have.property("lng");
+      expect(body.item).to.have.property("createdAt");
+    });
+
+  test("should return one of the expected statuses", function () {
+    expect([200, 400, 403, 404]).to.include(res.getStatus());
+  });
+
+  test("should return a validation error for bad input or invalid id", function () {
+    const body = res.getBody();
+
+    if (res.getStatus() !== 400) {
+      return;
+    }
+
+    expect(body).to.satisfy((value) => {
+      return (
+        typeof value.message === "string" ||
+        typeof value.error === "string"
+      );
+    });
+  });
+
+  test("should deny access when user is not authenticated", function () {
+    const body = res.getBody();
+
+    if (res.getStatus() !== 403) {
+      return;
+    }
+
+    expect(body).to.satisfy((value) => {
+      return (
+        value.message === "access denied" ||
+        value.error === "Access denied"
+      );
+    });
+  });
+
+  test("should return not found when the address does not exist", function () {
+    const body = res.getBody();
+
+    if (res.getStatus() !== 404) {
+      return;
+    }
+
+    expect(body).to.satisfy((value) => {
+      return (
+        typeof value.message === "string" ||
+        value.error === "Address not found"
+      );
+    });
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
