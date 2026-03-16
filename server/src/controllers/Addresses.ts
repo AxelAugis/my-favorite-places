@@ -228,4 +228,76 @@ addressesRouter.post("/searches", isAuthorized, async (req, res) => {
   return res.json({ items: closeAddresses.map(serializeAddress) });
 });
 
+/**
+ * @openapi
+ * /api/addresses/{id}:
+ *   delete:
+ *     tags: [addresses]
+ *     summary: Delete an address by ID
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Address deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Invalid address ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       403:
+ *         description: Access denied
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Address not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+addressesRouter.delete("/:id", isAuthorized, async (req, res) => {
+  const { id } = req.params;
+
+  if (!id || isNaN(Number(id))) {
+    return res.status(400).json({ error: "Invalid address ID" });
+  }
+
+  try {
+    const user = await getUserFromRequest(req);
+    if (!user) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    const address = await Address.findOne({
+      where: { id: Number(id), user: { id: user.id } },
+    });
+
+    if (!address) {
+      return res.status(404).json({ error: "Address not found" });
+    }
+
+    await address.remove();
+
+    return res.status(200).json({ message: "Address deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 export default addressesRouter;
