@@ -64,7 +64,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className={`text-[#E0F6EB] bg-[#0A3633]`}>
         <TanStackQueryProvider>
           <Header />
           {children}

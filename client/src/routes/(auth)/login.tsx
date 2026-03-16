@@ -66,8 +66,8 @@ function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-gray-800 rounded-lg shadow-xl p-8">
+    <main className="min-h-screen  flex items-center justify-center px-4">
+      <div className="max-w-md w-full bg-[#0A3633] rounded-lg shadow-xl p-8 border border-[#E0F6EB]/20">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">
           Connexion
         </h1>
@@ -101,7 +101,7 @@ function LoginPage() {
           <button
             type="submit"
             data-testid="login-button"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform  focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+            className="w-full bg-[#E0F6EB] hover:bg-[#C2E0D2] text-[#0A3633] font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform  focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800"
           >
             Se connecter
           </button>
@@ -111,7 +111,7 @@ function LoginPage() {
           Vous n'avez pas de compte ?{' '}
           <a
             href="/signup"
-            className="text-cyan-400 hover:text-cyan-300 font-medium"
+            className="text-[#E0F6EB] hover:text-[#C2E0D2] font-medium"
           >
             S'inscrire
           </a>

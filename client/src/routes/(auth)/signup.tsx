@@ -75,15 +75,15 @@ function SignupPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-gray-800 rounded-lg shadow-xl p-8">
+    <main className="min-h-screen  flex items-center justify-center px-4">
+      <div className="max-w-md w-full bg-[#0A3633] rounded-lg shadow-xl p-8 border border-[#E0F6EB]/20">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">
           Inscription
         </h1>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-500 bg-opacity-10 border border-red-500 text-red-500 px-4 py-3 rounded">
+            <div className="bg-red-500 bg-opacity-10 border border-red-500 text-white px-4 py-3 rounded">
               {error}
             </div>
           )}
@@ -119,7 +119,7 @@ function SignupPage() {
           <button
             data-testid='submit-btn'
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform  focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+            className="w-full bg-[#E0F6EB] hover:bg-[#C2E0D2] text-[#0A3633] font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform  focus:outline-none focus:ring-2 focus:ring-[#E0F6EB] focus:ring-offset-2 focus:ring-offset-gray-800"
           >
             S'inscrire
           </button>
@@ -129,7 +129,7 @@ function SignupPage() {
           Vous avez déjà un compte ?{' '}
           <a
             href="/client/src/routes/(auth)/login"
-            className="text-cyan-400 hover:text-cyan-300 font-medium"
+            className="text-[#E0F6EB] hover:text-[#C2E0D2] font-medium"
           >
             Se connecter
           </a>

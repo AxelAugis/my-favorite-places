@@ -69,10 +69,10 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900 flex flex-col items-center gap-y-8 text-center text-slate-100 py-4 px-16">
+    <div className="min-h-screen  flex flex-col items-center gap-y-8 text-center text-slate-100 py-4 px-16">
       <Toolbar results={addresses} onQueryChange={handleQuery} />
       <div className={`w-full flex flex-col items-start gap-y-8`}>
-        <h2 className={`font-poppins text-3xl font-bold`}>
+        <h2 className={`font-poppins text-3xl font-bold text-[#E0F6EB]`}>
           Mes places favorites
         </h2>
         <div

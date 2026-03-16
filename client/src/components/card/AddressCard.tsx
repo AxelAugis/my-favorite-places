@@ -25,12 +25,12 @@ export const AddressCard: React.FC<AddressCardProps> = ({ id, name, lat, lng, de
     return (
         <>
             <div
-                className={`group relative w-full bg-slate-700/30 rounded-lg shadow-lg border border-slate-600/50 hover:border-cyan-500 p-4 flex flex-col gap-y-2 transition-colors`}
+                className={`group relative w-full bg-[#E0F6EB] rounded-lg shadow-lg border border-[#E0F6EB]/20 hover:border-[#C2E0D2] p-4 flex flex-col gap-y-2 transition-colors text-[#0A3633]`}
             >
                 {/* Delete button, visible on hover */}
                 <button
                     onClick={() => setShowModal(true)}
-                    className={`absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 rounded-md p-1.5`}
+                    className={`absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-800 rounded-md p-1.5`}
                     aria-label="Delete address"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -44,8 +44,8 @@ export const AddressCard: React.FC<AddressCardProps> = ({ id, name, lat, lng, de
                 <h3 className={`font-poppins text-xl font-semibold`}>
                     {name}
                 </h3>
-                <p className={`text-sm text-slate-400`}>{description}</p>
-                <p className={`text-xs text-slate-500`}>
+                <p className={`text-sm text-[#0A3633]`}>{description}</p>
+                <p className={`text-xs text-[#0A3633]`}>
                     Lat: {lat}, Lng: {lng}
                 </p>
             </div>

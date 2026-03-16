@@ -32,7 +32,7 @@ export default function InputPassword({ dataTestId, label, id, error, value, onC
           data-testid={dataTestId}
           id={id}
           type={showPassword ? 'text' : 'password'}
-          className="w-full px-4 py-2 pr-12 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+          className="w-full px-4 py-2 pr-12 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E0F6EB] focus:border-transparent"
           value={value}
           onChange={onChange}
           placeholder={placeholder}

@@ -8,8 +8,8 @@ interface AuthLinkProps {
 export default function AuthLink({ variant, url }: Readonly<AuthLinkProps>) {
 
     const backgroundClass = variant === "primary" ? 
-    "bg-cyan-500 hover:bg-cyan-600 text-gray-100 border border-transparent" : 
-    "border border-cyan-300 text-cyan-100 hover:bg-gray-200 hover:text-cyan-600 hover:border-transparent";
+    "bg-[#E0F6EB] hover:bg-[#C2E0D2] text-[#0A3633] border border-transparent" : 
+    "border border-[#E0F6EB] text-[#E0F6EB] hover:bg-[#E0F6EB]/20 hover:text-[#E0F6EB] hover:border-transparent";
 
     const text = variant === "primary" ? "Connexion" : "Inscription";
 

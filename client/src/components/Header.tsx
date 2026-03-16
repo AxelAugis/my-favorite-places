@@ -35,7 +35,7 @@ export default function Header() {
   })
 
   return (
-    <header className="w-full p-4 flex justify-between items-center bg-slate-900 text-white shadow-lg border-b border-white/10">
+    <header className="w-full p-4 flex justify-between items-center bg-[#0A3633] text-white shadow-lg border-b border-white/10">
       <h1 className="ml-4 text-xl font-semibold">
         <Link to="/">MFP</Link>
       </h1>
