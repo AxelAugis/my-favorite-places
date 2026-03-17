@@ -221,4 +221,61 @@ usersRouter.delete("/tokens", (_req, res) => {
   return res.json({ message: "logged out" });
 });
 
+/*
+ * @openapi
+ * /api/users/{id}:
+ *   delete:
+ *     tags: [users]
+ *     summary: Delete a user account
+ *     description: Deletes the user account with the specified ID. The authenticated user can only delete their own account.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user to delete
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - message
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       403:
+ *         description: Access denied (not authenticated or trying to delete another user's account)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - message
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
+usersRouter.delete("/:id", isAuthorized, async (req, res) => {
+  const userId = Number.parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
+  const user = await getUserFromRequest(req);
+
+  if (!user) {
+    return res.status(403).json({ message: `access denied` });
+  }
+
+  if (user.id !== userId) {
+    return res.status(403).json({ message: `access denied` });
+  }
+
+  await User.delete({ id: userId });
+  res.clearCookie("token", authCookieOptions);
+  return res.json({ message: "user deleted" });
+});
+
 export default usersRouter;
