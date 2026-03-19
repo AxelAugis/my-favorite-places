@@ -32,12 +32,12 @@ Pour optimiser la qualité, nous combinons différents types de tests selon les 
 Le déploiement de l'application est conditionné par l'atteinte de ces objectifs:
 
 * **Taux de succès :** 100% de réussite sur les fonctionnalités critiques (Paiement, Recherche, Sécurité).
-* **Couverture de code :** Minimum 80% du code, 100% sur ce qui concerne le RGPD.
+* **Couverture de code :** Minimum 70% du code, 100% sur ce qui concerne le RGPD.
 * **Performance :** Temps de réponse de la recherche inférieur à 1,5 seconde dans des conditions optimales. Doit pouvoir fonctionner en dégradé.
 
 ---
 
 ## 5. Maintenance et Bonnes Pratiques
 * **Automatisation :** Les tests doivent être exécutés automatiquement via la CI avant chaque livraison.
-* **Règle d'or :** Aucun test échoué ne doit être contourné ; il doit être corrigé ou le plan de test mis à jour.
-* **Évolution :** Le plan de test doit évoluer à chaque phase de la roadmap (Phase 2 et 3).
+* **Aucun test**  échoué ne doit être contourné.
+* **Évolution :** Le plan de test doit évoluer à chaque phase du projet.

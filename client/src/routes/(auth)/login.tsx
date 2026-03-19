@@ -101,7 +101,7 @@ function LoginPage() {
           <button
             type="submit"
             data-testid="login-button"
-            className="w-full bg-[#E0F6EB] hover:bg-[#C2E0D2] text-[#0A3633] font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform  focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+            className="w-full bg-[#E0F6EB] hover:bg-[#C2E0D2] text-[#0A3633] font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform  focus:outline-none focus:ring-2 focus:ring-[#E0F6EB] focus:ring-offset-2 focus:ring-offset-gray-800"
           >
             Se connecter
           </button>
